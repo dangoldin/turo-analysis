@@ -61,3 +61,6 @@ target/
 
 # Private files
 *.private.text
+
+# Config files
+config.py
