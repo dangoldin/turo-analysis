@@ -1,0 +1,11 @@
+make,model,year,rate,reviews,price
+Audi,A7,2015,260.0,1,None
+Mazda,CX-9,2011,72.0,6,20208.3333333
+Mazda,MAZDA5,2009,55.0,2,10447.5
+Infiniti,JX,2013,159.0,2,28621.5
+Nissan,Altima,2013,79.0,9,16819.6666667
+Land Rover,Range Rover,2009,139.0,39,32998.5
+Volvo,C70,2004,55.0,0,7448.5
+Land Rover,Range Rover Sport,2011,139.0,0,41547.5
+Land Rover,Range Rover,2009,139.0,27,32998.5
+Land Rover,Range Rover Sport,2011,139.0,8,41547.5

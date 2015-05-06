@@ -11,8 +11,28 @@ def get_styles(make, model, year):
     if r.status_code != 200:
         return {}
     else:
-        return json.dumps(r.content)
+        return json.loads(r.content)
 
-def get_price(make, model, year):
+def get_price(style_id):
+    url = 'https://api.edmunds.com/v1/api/tmv/tmvservice/calculateusedtmv?styleid={0}&condition=Outstanding&mileage=25000&zip=07302&fmt=json&api_key={1}'.format(style_id, EDMUNDS_KEY)
+    r = requests.get(url)
+    if r.status_code != 200:
+        return {}
+    else:
+        return json.loads(r.content)
+
+def get_average_price(make, model, year):
     styles = get_styles(make, model, year)
-    print json.dumps(styles, indent=2)
+    # print json.dumps(styles, indent=2)
+    prices = []
+    for style in styles['styles']:
+        style_id = style['id']
+        # Pick arbitrary one for now
+        price_info = get_price(style_id)
+        price = price_info['tmv']['totalWithOptions']['usedPrivateParty']
+        if price and price > 0: # Skip bad records
+            prices.append(price)
+    if len(prices) > 0:
+        return sum(prices)/(1.0 * len(prices))
+    else:
+        return None

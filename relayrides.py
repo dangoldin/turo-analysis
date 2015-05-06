@@ -17,8 +17,7 @@ def analyze_file(p):
     return analyze(read_file(p))
 
 def analyze(j):
-    print json.dumps(j, indent=2)
-
+    # print json.dumps(j, indent=2)
     print '# of cars: {0}'.format(len(j['list']))
 
     listings = []
@@ -28,9 +27,7 @@ def analyze(j):
         model = l['vehicle']['model']
         year = l['vehicle']['year']
         reviews = l['reviewCount']
-
-        print ",".join(str(x) for x in [make, model, year, rate, reviews])
-
+        # print ",".join(str(x) for x in [make, model, year, rate, reviews])
         l = Listing(make, model, year, rate, reviews)
         listings.append(l)
     return listings
