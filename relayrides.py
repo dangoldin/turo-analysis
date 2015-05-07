@@ -4,10 +4,11 @@ import sys
 import requests
 import urllib
 import json
+from datetime import datetime
 
 from collections import namedtuple
 
-Listing = namedtuple('Listing', ['make', 'model', 'year', 'rate', 'reviews'])
+Listing = namedtuple('Listing', ['make', 'model', 'year', 'rate', 'reviews', 'created'])
 
 def read_file(p):
     with open(p, 'r') as f:
@@ -26,9 +27,9 @@ def analyze(j):
         make = l['vehicle']['make']
         model = l['vehicle']['model']
         year = l['vehicle']['year']
+        created = datetime.fromtimestamp( l['vehicle']['listingCreatedTime']/1000 )
         reviews = l['reviewCount']
-        # print ",".join(str(x) for x in [make, model, year, rate, reviews])
-        l = Listing(make, model, year, rate, reviews)
+        l = Listing(make, model, year, rate, reviews, created.strftime('%Y-%m-%d'))
         listings.append(l)
     return listings
 
