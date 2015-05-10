@@ -58,6 +58,7 @@ target/
 
 # Temp files
 *~
+~*
 
 # Private files
 *.private.text
