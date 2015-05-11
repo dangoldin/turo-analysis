@@ -14,12 +14,16 @@ def get_avg_price_row(l):
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        print 'Need to specify JSON'
+        print 'Need to specify JSON input'
         exit()
+    try:
+        outfile = sys.argv[2]
+    except Exception, e:
+        outfile = 'out.csv'
     listings = analyze_file(sys.argv[1])
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
         out_list = list( executor.map(get_avg_price_row, listings) )
-    with open('out.csv', 'w') as f:
+    with open(outfile, 'w') as f:
         f.write("make,model,year,rate,reviews,created,price\n")
         for l in out_list:
             print l,
