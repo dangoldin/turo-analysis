@@ -8,7 +8,7 @@ from datetime import datetime
 
 from collections import namedtuple
 
-Listing = namedtuple('Listing', ['make', 'model', 'year', 'rate', 'reviews', 'created'])
+Listing = namedtuple('Listing', ['make', 'model', 'year', 'rate', 'rating', 'reviews', 'trips_taken', 'created'])
 
 def read_file(p):
     with open(p, 'r') as f:
@@ -28,8 +28,10 @@ def analyze(j):
         model = l['vehicle']['model']
         year = l['vehicle']['year']
         created = datetime.fromtimestamp( l['vehicle']['listingCreatedTime']/1000 )
+        rating = l['rating']
         reviews = l['reviewCount']
-        l = Listing(make, model, year, rate, reviews, created.strftime('%Y-%m-%d'))
+        trips_taken = l['renterTripsTaken']
+        l = Listing(make, model, year, rate, rating, reviews, trips_taken, created.strftime('%Y-%m-%d'))
         listings.append(l)
     return listings
 
