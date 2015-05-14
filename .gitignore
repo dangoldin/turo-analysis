@@ -59,6 +59,7 @@ target/
 # Temp files
 *~
 ~*
+.DS_Store
 
 # Private files
 *.private.text
