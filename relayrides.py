@@ -34,7 +34,7 @@ def analyze(j):
         state = l['location']['state']
         distance = l['distance']
         trips_taken = l['renterTripsTaken']
-        l = Listing(make, model, year, rate, rating, reviews, trips_taken, created.strftime('%Y-%m-%d'), city, state, distance)
+        l = Listing(make, model, year, rate, rating, reviews, trips_taken, created, city, state, distance)
         listings.append(l)
     return listings
 

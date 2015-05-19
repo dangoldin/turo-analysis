@@ -7,16 +7,21 @@ import random
 
 from config import EDMUNDS_KEY, EDMNUDS_SECRET
 
-MAX_ATTEMPTS = 5
+MAX_ATTEMPTS = 6
 
-SLEEP_BASE = 2
-SLEEP_RAND = 5
+SLEEP_BASE = 4
+SLEEP_RAND = 3
+
+# Increase our sleep time the fewer tries we have left
+def smart_sleep(attempts_left, max_attempts):
+    sleep_seconds = SLEEP_BASE + random.randint(0, SLEEP_RAND * (1 + MAX_ATTEMPTS - attempts_left))
+    time.sleep(sleep_seconds)
 
 def get_styles(make, model, year, attempts = MAX_ATTEMPTS):
     url = 'https://api.edmunds.com/api/vehicle/v2/{0}/{1}/{2}?fmt=json&api_key={3}'.format(make, model, year, EDMUNDS_KEY)
     r = requests.get(url)
     if r.status_code == 403 and attempts > 0: # Retry
-        time.sleep(SLEEP_BASE + random.randint(0, SLEEP_RAND))
+        smart_sleep(attempts, MAX_ATTEMPTS)
         return get_styles(make, model, year, attempts - 1)
     if r.status_code != 200:
         print 'Status', r.status_code, r.content
@@ -28,7 +33,7 @@ def get_price(style_id, attempts = MAX_ATTEMPTS):
     url = 'https://api.edmunds.com/v1/api/tmv/tmvservice/calculateusedtmv?styleid={0}&condition=Outstanding&mileage=25000&zip=07302&fmt=json&api_key={1}'.format(style_id, EDMUNDS_KEY)
     r = requests.get(url)
     if r.status_code == 403 and attempts > 0: # Retry
-        time.sleep(SLEEP_BASE + random.randint(0, SLEEP_RAND))
+        smart_sleep(attempts, MAX_ATTEMPTS)
         return get_price(style_id, attempts - 1)
     if r.status_code != 200:
         print 'Status', r.status_code, r.content
