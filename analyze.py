@@ -26,7 +26,7 @@ if __name__ == '__main__':
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         out_list = list( executor.map(get_avg_price_row, listings) )
     with open(outfile, 'w') as f:
-        f.write("make,model,year,rate,rating,reviews,trips_taken,created,city,state,distance,price\n")
+        f.write("make,model,year,rate,rating,reviews,trips_taken,created,city,state,distance,price,days_listed,avg_trips_taken_per_day,avg_rate_per_day,price_vs_rate_per_day\n")
         for l, avg_price in out_list:
             days_listed = (today - l.created).days
             try:
