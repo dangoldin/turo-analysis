@@ -1,5 +1,6 @@
 #! /usr/bin/python
 
+import os
 import sys
 import requests
 import urllib
@@ -11,7 +12,7 @@ from collections import namedtuple
 Listing = namedtuple('Listing', ['make', 'model', 'year', 'rate', 'rating', 'reviews', 'trips_taken', 'created', 'city', 'state', 'distance'])
 
 def read_file(p):
-    with open(p, 'r') as f:
+    with open(os.path.join('data',p), 'r') as f:
         return json.loads(f.read())
 
 def analyze_file(p):
