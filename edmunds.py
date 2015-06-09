@@ -42,21 +42,25 @@ def get_price(style_id, attempts = MAX_ATTEMPTS):
         return json.loads(r.content)
 
 def get_average_price(make, model, year):
-    styles = get_styles(make, model, year)
-    # print json.dumps(styles, indent=2)
-    prices = []
-    for style in styles['styles']:
-        style_id = style['id']
-        # Pick arbitrary one for now
-        price_info = get_price(style_id)
-        try:
-            price = price_info['tmv']['totalWithOptions']['usedPrivateParty']
-        except Exception, e:
-            print 'Error',e,price_info
-            price = None
-        if price and price > 0: # Skip bad records
-            prices.append(price)
-    if len(prices) > 0:
-        return sum(prices)/(1.0 * len(prices))
-    else:
+    try:
+        styles = get_styles(make, model, year)
+        # print json.dumps(styles, indent=2)
+        prices = []
+        for style in styles['styles']:
+            style_id = style['id']
+            # Pick arbitrary one for now
+            price_info = get_price(style_id)
+            try:
+                price = price_info['tmv']['totalWithOptions']['usedPrivateParty']
+            except Exception, e:
+                print 'Error',e,price_info
+                price = None
+            if price and price > 0: # Skip bad records
+                prices.append(price)
+        if len(prices) > 0:
+            return sum(prices)/(1.0 * len(prices))
+        else:
+            return None
+    except Exception, e:
+        print 'Failed to get price for {0}, {1}, {2}'.format(make, model, year)
         return None
