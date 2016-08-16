@@ -1,2 +1,3 @@
-# relay-rides-analysis
-Analyze some Relay Rides data
+# turo-rides-analysis
+
+Analyze some Turo (formerly Relay Rides) data
